@@ -1,4 +1,6 @@
+const $form = $('form')
 const $nameField = $('#name')
+const $emailField = $('#email')
 const $jobRole = $('#title')
 const $otherRole = $('#other-job-role').hide()
 const $shirtDesign = $('#design')
@@ -9,14 +11,11 @@ const $payFormat = $('#payment')
 const $payPal = $('#paypal').hide()
 const $bitCoin = $('#bitcoin').hide()
 const $creditCard = $('#credit-card')
+const $cardNumber = $('cc-num')
 let total = 0;
 $colorChildren.prop('disabled', true)
 $payFormat.children().eq(1).attr('selected','selected')
-
-// Focus input 'Name' on load
-$(function() {
-    $($nameField).focus();
-  });
+$nameField.focus();
 
 // Event listener to display the other role  box
 $($jobRole).change(function(e) {
@@ -86,3 +85,10 @@ $($payFormat).change(function(e) {
     }
   });
 
+//Form validation function
+$($form).submit(function (e) {
+    const $nameValue = $nameField.val()
+    const regexObjecct = /\w+\D/i
+    console.log(regexObjecct.test($nameValue))
+    e.preventDefault();
+});
