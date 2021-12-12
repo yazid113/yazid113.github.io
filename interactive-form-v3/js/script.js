@@ -12,7 +12,7 @@ const $creditCard = $('#credit-card')
 let total = 0;
 $colorChildren.prop('disabled', true)
 $payFormat.children().eq(1).attr('selected','selected')
-
+alert('Hello World')
 
 // Focus input 'Name' on load
 $(function() {
