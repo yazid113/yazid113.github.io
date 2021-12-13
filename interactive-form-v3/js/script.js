@@ -88,7 +88,10 @@ $($payFormat).change(function(e) {
 //Form validation function
 $($form).submit(function (e) {
     const $nameValue = $nameField.val()
-    const regexObjecct = /\w+\D/i
-    console.log(regexObjecct.test($nameValue))
-    e.preventDefault();
+    const regexObjecct = /^[a-z ,.'-]+$/i
+    if (!regexObjecct.test($nameValue)) {
+        e.preventDefault();
+    }
+   // console.log(regexObjecct.test($nameValue))
+    
 });
