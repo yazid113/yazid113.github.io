@@ -1,3 +1,4 @@
+//Variable creation for each of the selected areas of the form
 const $form = $('form')
 const $nameField = $('#name')
 const $emailField = $('#email')
@@ -15,10 +16,13 @@ const $cardNumber = $('#cc-num')
 const $zipCode = $("#zip")
 const $cvv = $('#cvv')
 const $checkbox = $('input[type="checkbox"]')
+//Initalizatiom variables
 let total = 0;
-console.log($checkbox)
+//The color form is disbled until the design is selected
 $colorChildren.prop('disabled', true)
+//Onload display credit card option
 $payFormat.children().eq(1).attr('selected','selected')
+//onload mouse is at the name field
 $nameField.focus();
 
 // Event listener to display the other role  box
@@ -50,7 +54,8 @@ $($shirtDesign).change(function(e) {
     }
   });
 
-// Activities selected function
+//Event listener for the activities selection process verification and the
+//total sum of the cost of each
 $($regisActivities).change(function (e) {
     
     const dataCost = parseInt(e.target.getAttribute('data-cost'))
@@ -68,7 +73,8 @@ $($regisActivities).change(function (e) {
        
     
 });
-// Payment information function
+//Event listener for the the payment selection method
+//Hides and show on the site depending on the users selection
 $($payFormat).change(function(e) {
    console.log(e.target.value)
     if (e.target.value === 'bitcoin') {
@@ -88,7 +94,8 @@ $($payFormat).change(function(e) {
     }
   });
 
-//Form validation function
+//Validatio of each obligatory field need to submit the form
+//Error or valid disply on the field depeding on each verification
 $($form).submit(function (e) {
     const $nameValue = $nameField.val()
     const regexName = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/i
@@ -161,7 +168,7 @@ $($form).submit(function (e) {
             // e.preventDefault()
     }
 });
-//Accessibilty
+//Accessibilty-focus or blur the activities section on selection
 for (let i = 0; i < $checkbox.length; i++) {
     $checkbox.eq(i).focus(function(){
      $checkbox.parent().addClass('focus');
