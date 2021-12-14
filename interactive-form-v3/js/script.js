@@ -11,8 +11,12 @@ const $payFormat = $('#payment')
 const $payPal = $('#paypal').hide()
 const $bitCoin = $('#bitcoin').hide()
 const $creditCard = $('#credit-card')
-const $cardNumber = $('cc-num')
+const $cardNumber = $('#cc-num')
+const $zipCode = $("#zip")
+const $cvv = $('#cvv')
+const $checkbox = $('input[type="checkbox"]')
 let total = 0;
+console.log($checkbox)
 $colorChildren.prop('disabled', true)
 $payFormat.children().eq(1).attr('selected','selected')
 $nameField.focus();
@@ -50,17 +54,16 @@ $($shirtDesign).change(function(e) {
 $($regisActivities).change(function (e) {
     
     const dataCost = parseInt(e.target.getAttribute('data-cost'))
-   // console.log(e.target)
         if(e.target.checked){
             total = total + dataCost
             $costActivities.html(`Total: $${total}`)
-            return $costActivities
+            return total
            
         }
         else{
             total = total-dataCost;
             $costActivities.html(`Total: $${total}`)
-            return $costActivities
+            return total
         }
        
     
@@ -88,13 +91,85 @@ $($payFormat).change(function(e) {
 //Form validation function
 $($form).submit(function (e) {
     const $nameValue = $nameField.val()
-    const regexName = /^[a-z ,.'-]+$/i
+    const regexName = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/i
     const $emailValue = $emailField.val()
     const regexEmail = /^[^@]+@[^@.]+\.[a-z]+$/i
-    if (!regexName.test($nameValue) || !regexEmail.test($emailValue)) {
+    const $cardValue = $cardNumber.val()
+    const regexCardNumb = /^[0-9]{13,16}$/
+    const regexZipCode = /^[0-9]{5}$/
+    const regexCvv = /^[0-9]{3}$/
+    if (!regexName.test($nameValue)) {
+        $nameField.parent().addClass('not-valid')
+        $nameField.parent().removeClass('valid')
+        console.log($nameField.parent())
         e.preventDefault();
     }
-   // console.log(regexObjecct.test($nameValue))
-   //console.log(!regexEmail.test($emailValue))
-   //e.preventDefault();
+    else{
+        $nameField.parent().removeClass('not-valid')
+        $nameField.parent().addClass('valid')
+    }
+    if (!regexEmail.test($emailValue)) {
+        $emailField.parent().addClass('not-valid')
+        $emailField.parent().removeClass('valid')
+        e.preventDefault();
+    }
+    else{
+        $emailField.parent().removeClass('not-valid')
+        $emailField.parent().addClass('valid')
+    }
+    if(total === 0){
+        $regisActivities.addClass('not-valid')
+        $regisActivities.removeClass('valid')
+        e.preventDefault()
+    }
+    else{
+        $regisActivities.removeClass('not-valid')
+        $regisActivities.addClass('valid')
+    }
+    if ($payFormat.val() === 'credit-card') {
+            if (!regexCardNumb.test($cardValue)) {
+                $cardNumber.parent().addClass('not-valid')
+                $cardNumber.parent().removeClass('valid')
+                e.preventDefault()
+            }
+            else{
+                $cardNumber.parent().removeClass('not-valid')
+                $cardNumber.parent().addClass('valid') 
+            }
+            if (!regexZipCode.test($zipCode.val())) {
+                $zipCode.parent().addClass('not-valid')
+                $zipCode.parent().removeClass('valid')
+                e.preventDefault()
+            }
+            else{
+                $zipCode.parent().removeClass('not-valid')
+                $zipCode.parent().addClass('valid') 
+            }
+            if (!regexCvv.test($cvv.val())) {
+                $cvv.parent().addClass('not-valid')
+                $cvv.parent().removeClass('valid')
+                e.preventDefault()
+            }
+            else{
+                $cvv.parent().removeClass('not-valid')
+                $cvv.parent().addClass('valid') 
+            }
+            // console.log(regexCardNumb.test($cardValue))
+            // console.log(regexZipCode.test($zipCode.val()))
+            // console.log(regexCvv.test($cvv.val()))
+            // console.log('entre aqui')
+            // e.preventDefault()
+    }
 });
+//Accessibilty
+for (let i = 0; i < $checkbox.length; i++) {
+    $checkbox.eq(i).focus(function(){
+     $checkbox.parent().addClass('focus');
+    console.log($checkbox.parent())   
+    })
+    $checkbox.eq(i).blur(function(){
+        $checkbox.parent().removeClass('focus');
+       console.log($checkbox.parent())   
+       })
+    
+}
